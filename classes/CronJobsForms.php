@@ -180,7 +180,7 @@ class CronJobsForms
                         'name' => 'cron_mode',
                         'label' => self::$module->l('Cron mode', 'CronJobsForms'),
                         'values' => array(
-                            array('id' => 'webservice', 'value' => 'webservice', 'label' => self::$module->l('Basic', 'CronJobsForms'),
+                            array('id' => 'webservice', 'disabled' => 'disabled', 'value' => 'webservice', 'label' => self::$module->l('Basic', 'CronJobsForms'),
                                 'p' => self::$module->l('Use the PrestaShop cron tasks webservice to execute your tasks.', 'CronJobsForms')),
                             array('id' => 'advanced', 'value' => 'advanced', 'label' => self::$module->l('Advanced', 'CronJobsForms'),
                                 'p' => self::$module->l('For advanced users only: use your own crontab manager instead of PrestaShop cron tasks service.', 'CronJobsForms'))
@@ -222,7 +222,7 @@ class CronJobsForms
                     </p>
                     <br />
                     <ul class="list-unstyled">
-                        <li><code>0 * * * * curl '.(Configuration::get('PS_SSL_ENABLED') ? '-k ' : null).'"'.$curl_url.'"</code></li>
+                        <li><code>* * * * * curl '.(Configuration::get('PS_SSL_ENABLED') ? '-k ' : null).'"'.$curl_url.'"</code></li>
                     </ul>
                 </div>'
         );

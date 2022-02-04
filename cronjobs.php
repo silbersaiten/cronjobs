@@ -75,7 +75,7 @@ class CronJobs extends Module
     public function install()
     {
         Configuration::updateValue('CRONJOBS_ADMIN_DIR', Tools::encrypt($this->getAdminDir()));
-        Configuration::updateValue('CRONJOBS_MODE', 'webservice');
+        Configuration::updateValue('CRONJOBS_MODE', 'advanced');
         Configuration::updateValue('CRONJOBS_MODULE_VERSION', $this->version);
         Configuration::updateValue('CRONJOBS_WEBSERVICE_ID', 0);
 
