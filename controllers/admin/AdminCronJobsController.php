@@ -90,14 +90,15 @@ class AdminCronJobsController extends ModuleAdminController
 
     protected function shouldBeExecuted($cron)
     {
+        $min = ($cron['minute'] == -1) ? date('i') : $cron['minute'];
         $hour = ($cron['hour'] == -1) ? date('H') : $cron['hour'];
         $day = ($cron['day'] == -1) ? date('d') : $cron['day'];
         $month = ($cron['month'] == -1) ? date('m') : $cron['month'];
         $day_of_week = ($cron['day_of_week'] == -1) ? date('D') : date('D', strtotime('Sunday +' . $cron['day_of_week'] . ' days'));
 
         $day = date('Y').'-'.str_pad($month, 2, '0', STR_PAD_LEFT).'-'.str_pad($day, 2, '0', STR_PAD_LEFT);
-        $execution = $day_of_week.' '.$day.' '.str_pad($hour, 2, '0', STR_PAD_LEFT);
-        $now = date('D Y-m-d H');
+        $execution = $day_of_week.' '.$day.' '.str_pad($hour, 2, '0', STR_PAD_LEFT) . ' ' . str_pad($min, 2, '0', STR_PAD_LEFT);
+        $now = date('D Y-m-d H i');
 
         return !(bool)strcmp($now, $execution);
     }
