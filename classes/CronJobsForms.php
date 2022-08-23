@@ -207,13 +207,19 @@ class CronJobsForms
             $curl_url = $path.Context::getContext()->link->getAdminLink('AdminCronJobs', false);
             $curl_url .= '&token='.$token;
         } else {
-            $curl_url = Context::getContext()->link->getAdminLink('AdminCronJobs', false);
+            //$curl_url = Context::getContext()->link->getAdminLink('AdminCronJobs', false);
+            $curl_url = Context::getContext()->link->getAdminBaseLink(Context::getContext()->shop->id). basename(_PS_ADMIN_DIR_) . '/' . Dispatcher::getInstance()->createUrl('AdminCronJobs', Context::getContext()->language->id, array());
             $curl_url .= '&token='.$token;
+        }
+
+        $show_advanced_help = true;
+        if (Shop::isFeatureActive() && Shop::getContext() != Shop::CONTEXT_SHOP) {
+            $show_advanced_help = false;
         }
 
         return array(
             'cron_mode' => Configuration::get('CRONJOBS_MODE'),
-            'advanced_help' =>
+            'advanced_help' => ($show_advanced_help == true)?
                 '<div class="alert alert-info">
                     <p>'
                         .self::$module->l('The Advanced mode enables you to use your own cron tasks manager instead of PrestaShop cron tasks webservice.', 'CronJobsForms').' '
@@ -224,7 +230,9 @@ class CronJobsForms
                     <ul class="list-unstyled">
                         <li><code>* * * * * curl '.(Configuration::get('PS_SSL_ENABLED') ? '-k ' : null).'"'.$curl_url.'"</code></li>
                     </ul>
-                </div>'
+                </div>':'<div class="alert alert-warning">
+                    <p>'
+                .self::$module->l('Please select shop to see how to execute cron task', 'CronJobsForms').'</p></div>'
         );
     }
 
