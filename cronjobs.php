@@ -47,7 +47,7 @@ class CronJobs extends Module
     {
         $this->name = 'cronjobs';
         $this->tab = 'administration';
-        $this->version = '1.5.1';
+        $this->version = '1.5.2';
         $this->module_key = '';
 
         $this->controllers = array('callback');
@@ -74,12 +74,12 @@ class CronJobs extends Module
 
     public function install()
     {
-        Configuration::updateValue('CRONJOBS_ADMIN_DIR', Tools::encrypt($this->getAdminDir()));
+        Configuration::updateValue('CRONJOBS_ADMIN_DIR', Tools::hash($this->getAdminDir()));
         Configuration::updateValue('CRONJOBS_MODE', 'advanced');
         Configuration::updateValue('CRONJOBS_MODULE_VERSION', $this->version);
         Configuration::updateValue('CRONJOBS_WEBSERVICE_ID', 0);
 
-        $token = Tools::encrypt(Tools::getShopDomainSsl().time());
+        $token = Tools::hash(Tools::getShopDomainSsl().time());
         Configuration::updateGlobalValue('CRONJOBS_EXECUTION_TOKEN', $token);
 
         if (parent::install()) {
@@ -101,12 +101,12 @@ class CronJobs extends Module
 
     protected function init()
     {
-        $new_admin_dir = (Tools::encrypt($this->getAdminDir()) != Configuration::get('CRONJOBS_ADMIN_DIR'));
+        $new_admin_dir = (Tools::hash($this->getAdminDir()) != Configuration::get('CRONJOBS_ADMIN_DIR'));
         $new_module_version = version_compare($this->version, Configuration::get('CRONJOBS_MODULE_VERSION'), '!=');
 
         if ($new_admin_dir || $new_module_version) {
             Configuration::updateValue('CRONJOBS_MODULE_VERSION', $this->version);
-            Configuration::updateValue('CRONJOBS_ADMIN_DIR', Tools::encrypt($this->getAdminDir()));
+            Configuration::updateValue('CRONJOBS_ADMIN_DIR', Tools::hash($this->getAdminDir()));
 
 
             if (Configuration::get('CRONJOBS_MODE') == 'webservice') {

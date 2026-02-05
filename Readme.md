@@ -1,5 +1,8 @@
 # Cron tasks manager
 
+#### 1.5.2(05.02.2026):
+* PS9 compatibility
+
 #### 1.5.1(23.08.2022):
 * Fixed crontask job line for shop context.
 
